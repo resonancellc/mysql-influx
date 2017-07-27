@@ -23,7 +23,7 @@
         }
       },
       "mysql": {
-        "query": "SELECT created_dt AS utc, service_id as service, count(*) AS value FROM news.news_campaign GROUP BY service, date(created_dt), hour(created_dt) ORDER BY id LIMIT %s OFFSET %s"
+        "query": "SELECT campaign.created_dt utc, service.uuid service, count(*) value FROM news.news_campaign campaign LEFT JOIN news.news_service service ON campaign.service_id = service.id GROUP BY service, date(utc), hour(utc) ORDER BY campaign.id LIMIT %s OFFSET %s"
       }
     },
     "sms": {
@@ -38,7 +38,7 @@
         }
       },
       "mysql": {
-        "query": "SELECT created_dt AS utc, service_id as service, campaign_id as campaign, message_type as type, status, count(*) AS value FROM news.news_message_sms GROUP BY service, campaign, type, status, date(created_dt), hour(created_dt) ORDER BY id LIMIT %s OFFSET %s"
+        "query": "SELECT sms.created_dt utc, service.uuid service, campaign_id campaign, message_type type, sms.status status, count(*) value FROM news.news_message_sms sms LEFT JOIN news.news_service service ON sms.service_id = service.id GROUP BY service, campaign, type, status, date(utc), hour(utc) ORDER BY sms.id LIMIT %s OFFSET %s"
       }
     },
     "contact": {
@@ -51,7 +51,7 @@
         }
       },
       "mysql": {
-        "query": "SELECT created_dt AS utc, service_id as service, list_id as list, count(*) AS value FROM news.cds_contact GROUP BY service, list, date(created_dt), hour(created_dt) ORDER BY id LIMIT %s OFFSET %s"
+        "query": "SELECT contact.created_dt utc, service.uuid service, list_id list, count(*) value FROM news.cds_contact contact LEFT JOIN news.news_service service ON contact.service_id = service.id GROUP BY service, list, date(utc), hour(utc) ORDER BY contact.id LIMIT %s OFFSET %s"
       }
     },
     "list": {
@@ -63,7 +63,7 @@
         }
       },
       "mysql": {
-        "query": "SELECT created_dt AS utc, service_id as service, count(*) AS value FROM news.cds_list GROUP BY service, date(created_dt), hour(created_dt) ORDER BY id LIMIT %s OFFSET %s"
+        "query": "SELECT news.cds_list.id id, news.cds_list.created_dt utc, news.news_service.uuid service, count(*) value FROM news.cds_list LEFT JOIN news.news_service ON news.cds_list.service_id=news.news_service.id GROUP BY service, date(utc), hour(utc) ORDER BY id LIMIT %s OFFSET %s"
       }
     }
   }
