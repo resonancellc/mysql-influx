@@ -1,0 +1,37 @@
+{
+    "name": "vorbind/mysql-influx",
+    "description": "Import mysql data to influx db",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sasa Rajkovic",
+            "email": "sasa.rajkovic34@gmail.com"
+        }
+    ],
+    "type": "project",
+    "config": {
+        "secure-http": false,
+        "github-oauth": {
+            "github.com": "a2512107a2a975ff831afda332ac8536cf234fff"
+        }
+    },
+    "require": {
+        "php": ">=5.5",
+        "influxdb/influxdb-php": "^2.0",
+        "vorbind/influx-analytics": "^1.0"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/vorbind/influxdb-php.git"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "6.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vorbind\\MysqlInflux\\": "src/"
+        }
+    }
+} 

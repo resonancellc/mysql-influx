@@ -1,0 +1,70 @@
+{
+  "db": {
+    "influx": {
+      "host": "localhost",
+      "port": 8086,
+      "username": "",
+      "password": ""
+    },
+    "mysql": {
+      "host": "localhost",
+      "port": 3306,
+      "username": "root",
+      "password": "root"
+    }
+  },
+  "metrics": {
+    "campaign": {
+      "influx": {
+        "tags": {
+          "service": null,
+          "utc": null,
+          "value": null
+        }
+      },
+      "mysql": {
+        "query": "SELECT created_dt AS utc, service_id as service, count(*) AS value FROM news.news_campaign GROUP BY service, hour(created_dt) ORDER BY id LIMIT %s OFFSET %s"
+      }
+    },
+    "sms": {
+      "influx": {
+        "tags": {
+          "service": null,
+          "campaign": null,
+          "type": null,
+          "status": null,
+          "utc": null,
+          "value": null
+        }
+      },
+      "mysql": {
+        "query": "SELECT created_dt AS utc, service_id as service, campaign_id as campaign, message_type as type, status, count(*) AS value FROM news.news_message_sms GROUP BY service, campaign, type, status, hour(created_dt) ORDER BY id LIMIT %s OFFSET %s"
+      }
+    },
+    "contact": {
+      "influx": {
+        "tags": {
+          "service": null,
+          "list": null,
+          "utc": null,
+          "value": null
+        }
+      },
+      "mysql": {
+        "query": "SELECT created_dt AS utc, service_id as service, list_id as list, count(*) AS value FROM news.cds_contact GROUP BY service, list, hour(created_dt) ORDER BY id LIMIT %s OFFSET %s"
+      }
+    },
+    "list": {
+      "influx": {
+        "tags": {
+          "service": null,
+          "utc": null,
+          "value": null
+        }
+      },
+      "mysql": {
+        "query": "SELECT created_dt AS utc, service_id as service, count(*) AS value FROM news.cds_list GROUP BY service, hour(created_dt) ORDER BY id LIMIT %s OFFSET %s"
+      }
+    }
+  }
+}
