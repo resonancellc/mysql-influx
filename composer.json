@@ -9,12 +9,6 @@
         }
     ],
     "type": "project",
-    "config": {
-        "secure-http": false,
-        "github-oauth": {
-            "github.com": "a2512107a2a975ff831afda332ac8536cf234fff"
-        }
-    },
     "require": {
         "php": ">=5.5",
         "influxdb/influxdb-php": "^2.0",
