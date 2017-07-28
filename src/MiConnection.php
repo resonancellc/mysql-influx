@@ -21,20 +21,22 @@ class MiConnection {
 
   public function __construct($config = null) {
     try {
-
       if(!isset($config['influx']) || !isset($config['mysql']) ) {
         throw new Exception("Missing influx or db configuration!");
       }
 
+      // influx connection set up
       $influx = $config['influx'];
-      $mysql = $config['mysql'];
-  
-      $iconn = new Connection($influx["username"],$influx["password"],$influx["host"],$influx["port"]); 
-      $this->idb = $iconn->getDatabase("news");
+      $iconn = new Connection($influx["username"],$influx["password"],$influx["host"],$influx["port"]);
+      $this->idb = $iconn->getDatabase($influx["database"]);
 
+      // mysql connection set up
+      $mysql = $config['mysql'];
       $mhost = $mysql["host"];
-      $this->mdb = new PDO("mysql:host=$mhost;", $mysql["username"], $mysql["password"]);
+      $mdbname = $mysql["database"];
+      $this->mdb = new PDO("mysql:host=$mhost;dbname=$mdbname;charset=utf8", $mysql["username"],$mysql["password"]);
       $this->mdb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
     } catch(Exception $e) {
       echo "Connection failed: " . $e->getMessage();
     }
