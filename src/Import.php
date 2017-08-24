@@ -2,12 +2,12 @@
 
 namespace Vorbind\MysqlInflux;
 
-use Vorbind\MysqlInflux\Exeception\ImportException;
 use Vorbind\MysqlInflux\Reader\Reader;
 use Vorbind\MysqlInflux\MiConnection;
 use \PDO;
 use Vorbind\InfluxAnalytics\Analytics;
-use Vorbind\InfluxAnalytics\Exception\AnalyticsException;
+use Vorbind\InfluxAnalytics\Mapper\AnalyticsMapper;
+
 use \Exception;
 
 /**
@@ -34,9 +34,9 @@ class Import implements ImportInterface {
         $conn = new MiConnection($db);        
         $mdb = $conn->getMysqlAdapter();
         $idb = $conn->getInfluxAdapter();
-
+        
         // instantiate analytics
-        $analytics = new Analytics();
+        $analytics = new Analytics(new AnalyticsMapper($idb));
         
         // Do import  
         foreach($metrics as $metric => $metricItem) {   
@@ -72,7 +72,7 @@ class Import implements ImportInterface {
               unset($tags["value"]); 
               unset($tags["utc"]);
               
-              $data = $analytics->save($idb, $metric, $tags, intval($value), $utc, "years_5");
+              $data = $analytics->save($metric, $tags, intval($value), $utc, "years_5");
             }
 
             $offset += $limit;
