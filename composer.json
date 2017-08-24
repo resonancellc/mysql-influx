@@ -12,7 +12,7 @@
     "require": {
         "php": ">=5.5",
         "influxdb/influxdb-php": "^2.0",
-        "vorbind/influx-analytics": "^0.0"
+        "vorbind/influx-analytics": "^2.0"
     },
     "repositories": [
         {
